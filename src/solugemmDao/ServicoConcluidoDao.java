@@ -14,6 +14,7 @@ import java.util.List;
  * @author principal
  */
 public class ServicoConcluidoDao {
+    /**
     private static List<ServicoConcluido> listaServConcluido = new ArrayList<>();
      
      public void salvar(ServicoConcluido servCon){
@@ -37,4 +38,6 @@ public class ServicoConcluidoDao {
             this.listaServConcluido.remove(indice);
         }
      }
+     * 
+     */
 }

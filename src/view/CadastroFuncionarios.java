@@ -35,7 +35,7 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
     public CadastroFuncionarios() {
         initComponents();
          model3();
-         txtPesquisarMatricula.setText("0001");
+         txtPesquisarMatricula.setText("2221");
        
         carregarComboCargo();
         carregarComboEmpresas();
@@ -72,6 +72,9 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
            }
            
     }
+    int idCargo = 0;
+    int idEmpresa = 0;
+    int  idFuncionario = 0;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -577,13 +580,13 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
 
         tabelaFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Matricula", "Nome", "Cargo", "Empresa"
+                "IdCliente", "Matricula", "Nome", "Cargo", "Empresa"
             }
         ));
         jScrollPane3.setViewportView(tabelaFuncionarios);
@@ -763,6 +766,7 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
       
         
         Cargo cargoSelecionado = (Cargo) cbmCargo.getSelectedItem();
+        idCargo = cargoSelecionado.getIdCardo();
         
         
         String cep = txtCEP.getText();
@@ -829,10 +833,11 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
         endereco.setNumeroApartamento(apartamento);
         endereco.setBloco(bloco);
         
-        telefon.setNumero(telefone);
+      //  telefon.setNumero(telefone);
         
         func.setNome(nome);
-        func.setTelefome(telefon);
+       // func.setTelefome(telefon);
+        func.setTel(telefone);
         func.setEmail(email);
         func.setIdentificacao(cpf);
         DateTimeFormatter formatadorBR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -848,8 +853,9 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
         model3();
         JOptionPane.showMessageDialog(this, "Funcionário cadastrado com sucesso");
      }catch(Exception e){
-         JOptionPane.showMessageDialog(this, "Erro inesperado, cadastro não realizado");
-     }    
+            e.printStackTrace();
+             JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+     }       
        // -------------------------------------------------
      cbmCargo.setEnabled(false);
     }//GEN-LAST:event_btnSalvarFuncionarioActionPerformed
@@ -944,7 +950,7 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
      try{   
         Funcionario func = new Funcionario();
         Endereco endereco = new Endereco();
-        Telefone tel = new Telefone();
+       // Telefone tel = new Telefone();
         FuncionarioDao dao = new FuncionarioDao();
         
         endereco.setCep(cep);
@@ -957,10 +963,10 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
         endereco.setNumeroApartamento(apartamento);
         endereco.setBloco(bloco);
         
-        tel.setNumero(telefone);
-        
+       
+        func.setIdFuncionario(idFuncionario);
         func.setNome(nome);
-        func.setTelefome(tel);
+        func.setTel(telefone);
         func.setEmail(email);
         func.setIdentificacao(cpf);
         DateTimeFormatter formatadorBR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -971,6 +977,9 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
         func.setEmpresa(empresaSelecionada);
         func.setCargo(cargoSelecionado);
         func.setEndereco(endereco);
+        
+       
+        // ------------------
         
         dao.atualizar(func);
         model3();
@@ -995,9 +1004,11 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
         txtBloco.setText("");
         
         JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso");
-     }catch(Exception e){   
-        JOptionPane.showMessageDialog(this,"Erro inesperado, funcionário não cadastrado");
-     }    
+     }catch(Exception e){
+              e.printStackTrace(); 
+              JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+           
+      }   
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
@@ -1006,12 +1017,12 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
            
            if (linhaSelecionada >= 0) {
         
-            
+                 int idFuncionario = (int) tabelaFuncionarios.getValueAt(linhaSelecionada, 0);
                  int resposta = JOptionPane.showConfirmDialog(this, "Deseja excluir esta consulta?");
             
             if (resposta == JOptionPane.YES_OPTION) {
          
-                dao.remover(linhaSelecionada);
+                dao.remover(idFuncionario);
                  
                 model3();
                 
@@ -1035,9 +1046,9 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
         if(funcionario == null){
             JOptionPane.showMessageDialog(this, "Funcionário não encontrado");
         }else{
-        
+        idFuncionario = funcionario.getIdFuncionario();
         txtNome.setText(funcionario.getNome());
-        txtTelefone.setText(funcionario.getTelefome().getNumero());
+        txtTelefone.setText(funcionario.getTel());
         txtEmail.setText(funcionario.getEmail());
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         txtDataNascimento.setText(funcionario.getDataNascimento().format(formatador));
@@ -1056,7 +1067,7 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
         txtBloco.setText(funcionario.getEndereco().getBloco());
         cbmEmpresa.setSelectedItem(funcionario.getEmpresa());
       
-        carregarComboCargo(funcionario.getCargo());
+       // carregarComboCargo(funcionario.getCargo());
        
         btnSalvarFuncionario.setEnabled(false);
         
@@ -1078,8 +1089,9 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
         txtApartamento.setEditable(false);
         txtBloco.setEditable(false);
         
-       
-        cbmCargo.setEnabled(false); 
+        
+        privilegio = 2;
+        cbmCargo.setEnabled(true); 
         if(privilegio == 2){
            btnAtualizar.setEnabled(true);
         } else{
@@ -1265,7 +1277,7 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
  
  public void carregarComboCargo(Cargo cargoSelecionado) {
     CargoDao dao = new CargoDao();
-    List<Cargo> lista = dao.listarTodos();
+    List<Cargo> lista = dao.listarTodos2();
    
     DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
    
@@ -1313,12 +1325,16 @@ public class CadastroFuncionarios extends javax.swing.JFrame {
     for (Funcionario f : lista) {
         // Proteção contra valores nulos nas colunas
         model.addRow(new Object[]{
+            f.getIdFuncionario(),
             f.getMatricula(),
             f.getNome(),
             (f.getCargo() != null) ? f.getCargo().toString() : "-",
             (f.getEmpresa() != null) ? f.getEmpresa().toString() : "-"
         });
     }
+    tabelaFuncionarios.getColumnModel().getColumn(0).setMinWidth(0);
+    tabelaFuncionarios.getColumnModel().getColumn(0).setMaxWidth(0);
+    tabelaFuncionarios.getColumnModel().getColumn(0).setPreferredWidth(0);
 }
  
 

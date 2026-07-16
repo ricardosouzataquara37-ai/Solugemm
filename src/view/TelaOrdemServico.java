@@ -5,6 +5,7 @@
 package view;
 
 import br.com.solugem.model.Cliente;
+import br.com.solugem.model.Empresa;
 import br.com.solugem.model.Endereco;
 import br.com.solugem.model.Funcionario;
 import br.com.solugem.model.FuncionarioServico;
@@ -121,7 +122,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
                 */
            }
     }
-    
+    OrdemServico os = new OrdemServico();
     double totalGeralMaterial = 0, totalGeralServico = 0; 
     int idMaterial = 0, idTipoServico = 0;;
     Material itemMaterial = null;
@@ -923,6 +924,11 @@ public class TelaOrdemServico extends javax.swing.JFrame {
         btnLimparServico2.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         btnLimparServico2.setForeground(new java.awt.Color(255, 255, 255));
         btnLimparServico2.setText("Limpar");
+        btnLimparServico2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparServico2ActionPerformed(evt);
+            }
+        });
 
         jLabel63.setText("Limpar campos");
 
@@ -1655,14 +1661,14 @@ public class TelaOrdemServico extends javax.swing.JFrame {
         
         
         ClienteDao dao = new ClienteDao();
-        Cliente cliente = dao.cliente(strPesquisarCPFCliente);
+        Cliente cliente = dao.consultar(strPesquisarCPFCliente);
         
         if(cliente == null){
             JOptionPane.showMessageDialog(this, "Cliente não encontrado");
         }else{
         
         txtNome.setText(cliente.getNome());
-        txtTelefone.setText(cliente.getTelefone().getNumero());
+        txtTelefone.setText(cliente.getTel());
         txtEmail.setText(cliente.getEmail());
         txtFtDataNascimento.setText(cliente.getDataNascimento().toString());
         txtCPF.setText(cliente.getCPF());
@@ -1750,8 +1756,8 @@ public class TelaOrdemServico extends javax.swing.JFrame {
          calcularTotalGeralMaterial(total);
          
          MaterialUtilizado matUtil = new MaterialUtilizado();
-         MaterialUtilizadoDao dao = new MaterialUtilizadoDao();
-         
+       //  MaterialUtilizadoDao dao = new MaterialUtilizadoDao();
+       //  OrdemServico os = new OrdemServico();   
          
         
          matUtil.setPrecoMaterial(preco);
@@ -1763,8 +1769,8 @@ public class TelaOrdemServico extends javax.swing.JFrame {
          ma.setNome(txtMaterial.getText());
          ma.setCodigo(txtCodigo.getText());
          matUtil.setMaterial(ma);
-         dao.salvar(matUtil);
-         
+ 
+         os.salvarMaterial(matUtil);
          // Atualizando a tabela
          atualizarTabela();
          
@@ -1783,7 +1789,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
          int linhaSelecionada = tabelaMaterial.getSelectedRow();
-         MaterialUtilizadoDao dao = new MaterialUtilizadoDao();
+       //  OrdemServico dao = new OrdemServico();
            
            if (linhaSelecionada >= 0) {
         
@@ -1798,7 +1804,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
                 String strTotal = valorTotal.toString();
                 double total = Double.parseDouble(strTotal);
                 recalcularTotalGeralMaterial(total);
-                dao.remover(linhaSelecionada);
+                os.remover(linhaSelecionada);
                  
             
           //  DefaultTableModel modelo = (DefaultTableModel) tabelaConsulta.getModel();
@@ -1833,7 +1839,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
            strObservacao = "";
        }
         FuncionarioServico funcServ = new FuncionarioServico();
-        FuncionarioServicoDao dao = new FuncionarioServicoDao();
+       // OrdemServico os = new OrdemServico();
         Funcionario funcionario = new Funcionario();
         
         funcServ.setFuncionario(funcionarioOs);
@@ -1841,7 +1847,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
         funcServ.setHoraFimServico(strHoraFim);
         funcServ.setObservacaoFuncionario(strObservacao);
        
-        dao.salvar(funcServ);
+        os.salvarFuncServ(funcServ);
         atualizarTabelaFuncionarioOs(); 
         
         txtMatricula.setText("");
@@ -1859,7 +1865,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
 
     private void btnExcluirFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirFuncionarioActionPerformed
          int linhaSelecionada = tabelaFuncionarios.getSelectedRow();
-         FuncionarioServicoDao dao = new FuncionarioServicoDao();
+       //  OrdemServico os = new OrdemServico();
            
            if (linhaSelecionada >= 0) {
         
@@ -1869,7 +1875,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
             if (resposta == JOptionPane.YES_OPTION) {
                 
                 
-                dao.remover(linhaSelecionada);
+                os.remover(linhaSelecionada);
                  
                 atualizarTabelaFuncionarioOs();
                 
@@ -1928,7 +1934,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
          calcularTotalGeralServico(total);
          
          ServicoConcluido servConcluido = new ServicoConcluido();
-         ServicoConcluidoDao dao = new ServicoConcluidoDao();
+      //   OrdemServico os = new OrdemServico();
          
          servConcluido.setPreco(preco);
          servConcluido.setQtdTipoServico(quantidade);
@@ -1936,7 +1942,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
         
          
          servConcluido.setTipoServico(itemTipoDeServico);
-         dao.salvar(servConcluido);
+         os.salvarServico(servConcluido);
          
          // Atualizando a tabela
          atualizarTabelaServico();   
@@ -1957,7 +1963,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
 
     private void btnExcluirServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirServicoActionPerformed
          int linhaSelecionada = tabelaServConcluido.getSelectedRow();
-         ServicoConcluidoDao dao = new ServicoConcluidoDao();
+       //  OrdemServico os = new OrdemServico();
            
            if (linhaSelecionada >= 0) {
         
@@ -1973,7 +1979,7 @@ public class TelaOrdemServico extends javax.swing.JFrame {
                 double total = Double.parseDouble(strTotal);
                 recalcularTotalGeralServico(total);
                // recalcularTotalGeralServico();
-                dao.remover(linhaSelecionada);
+                os.removerServico(linhaSelecionada);
                  
             
           //  DefaultTableModel modelo = (DefaultTableModel) tabelaConsulta.getModel();
@@ -2043,18 +2049,17 @@ public class TelaOrdemServico extends javax.swing.JFrame {
            enderecoOs.setNumeroApartamento(strApartamentoOs);
            enderecoOs.setBloco(strBlocoOs);
            
+           Empresa empresa = new Empresa();
+           empresa.setIdEmpresa(1);
+           
            
            
            OrdemServicoDao daoOs = new OrdemServicoDao();
            MaterialUtilizadoDao daoMat = new MaterialUtilizadoDao();
            ServicoConcluidoDao daoServ = new ServicoConcluidoDao();
            FuncionarioServicoDao daoFunc = new FuncionarioServicoDao();
-           
-         //  if(txtTotalMaoObraMaterial)
-            
-          
-           
-           OrdemServico os = new OrdemServico();
+   
+        //   OrdemServico os = new OrdemServico();
            DateTimeFormatter formatadorBR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
            LocalDate dataOs = LocalDate.parse(strDataOs,formatadorBR);
            os.setData(dataOs);
@@ -2062,10 +2067,10 @@ public class TelaOrdemServico extends javax.swing.JFrame {
            os.setTotalMaoObraComDesc(Double.parseDouble(txtTotalComDesconto.getText()));
            os.setTotalMaoObramaterial(Double.parseDouble(txtTotalMaoObraMaterial.getText()));
            os.setCliente(clienteCadastrado);
-           os.setListaMateriais(daoMat.listar());
-           os.setListaServicos(daoServ.listar());
-           os.setEquipe(daoFunc.listar());
+           os.setEndereco(enderecoOs);
+           os.setEmpresa(empresa);
            
+        
            boolean resposta = daoOs.salvarOs(os);
            
            if(resposta){
@@ -2218,6 +2223,10 @@ public class TelaOrdemServico extends javax.swing.JFrame {
         login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton49ActionPerformed
+
+    private void btnLimparServico2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparServico2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLimparServico2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2500,11 +2509,11 @@ public void recalcularTotalGeralMaterial(double total){
   método responsável por preencher a tabela de matereiais utilizados
 */
 public void atualizarTabela(){
-    MaterialUtilizadoDao dao = new MaterialUtilizadoDao();
+   
     DefaultTableModel modelo = (DefaultTableModel) tabelaMaterial.getModel();
     modelo.setNumRows(0);
    
-    List<MaterialUtilizado> lista = dao.listar();
+    List<MaterialUtilizado> lista = os.listarMaterial();
     
     for(MaterialUtilizado mu: lista){
         modelo.addRow(new Object[]{
@@ -2523,11 +2532,11 @@ public void atualizarTabela(){
   método responsável por preencher a tabela dos serviços concluidos
 */
 public void atualizarTabelaServico(){
-    ServicoConcluidoDao dao = new ServicoConcluidoDao();
+    
     DefaultTableModel modelo = (DefaultTableModel) tabelaServConcluido.getModel();
     modelo.setNumRows(0);
    
-    List<ServicoConcluido> lista = dao.listar();
+    List<ServicoConcluido> lista = os.listarServico();
     
     for(ServicoConcluido sc: lista){
         modelo.addRow(new Object[]{
@@ -2604,11 +2613,11 @@ public void recalcularTotalGeralServico(double total){
 // Método responsável por atualizar tabela funcionários envolvidos na Os
 
 public void atualizarTabelaFuncionarioOs(){
-    FuncionarioServicoDao dao = new FuncionarioServicoDao();
+   
     DefaultTableModel modelo = (DefaultTableModel) tabelaFuncionarios.getModel();
     modelo.setNumRows(0);
    
-    List<FuncionarioServico> lista = dao.listar();
+    List<FuncionarioServico> lista = os.listarFuncServ();
     
     for(FuncionarioServico fs: lista){
         modelo.addRow(new Object[]{

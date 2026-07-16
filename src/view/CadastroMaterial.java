@@ -28,7 +28,7 @@ public class CadastroMaterial extends javax.swing.JFrame {
     public CadastroMaterial() {
         initComponents();
          model();
-         txtPesquisar.setText("1111");
+         txtPesquisar.setText("1125");
     }
     char privilegio;
     public CadastroMaterial(char inicial){
@@ -53,6 +53,8 @@ public class CadastroMaterial extends javax.swing.JFrame {
            }
             
     }
+    int idMaterial = 0;
+    int idFabricante = 0;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -391,13 +393,13 @@ public class CadastroMaterial extends javax.swing.JFrame {
 
         tabelaMaterial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Código", "Nome", "Preço", "Fabricante"
+                "idMaterial", "Código", "Nome", "Preço", "Fabricante"
             }
         ));
         jScrollPane3.setViewportView(tabelaMaterial);
@@ -615,7 +617,7 @@ public class CadastroMaterial extends javax.swing.JFrame {
         
         mat.setFabricante(fab);
         
-        dao.salvar(mat);
+        dao.salvarMaterialComFabricante(mat);
         
         model();
         JOptionPane.showMessageDialog(this, "Material cadastrado com sucesso");
@@ -709,9 +711,11 @@ public class CadastroMaterial extends javax.swing.JFrame {
         }
      try{  
         mat.setCodigo(strCodigo);
+        mat.setIdMaterial(idMaterial);
         
         fab.setNome(strFabricante);
         fab.setCnpj(strCNPJ);
+        fab.setIdFabricante(idFabricante);
         
         mat.setFabricante(fab);
         
@@ -732,12 +736,13 @@ public class CadastroMaterial extends javax.swing.JFrame {
         MaterialDao dao = new MaterialDao();
 
         if (linhaSelecionada >= 0) {
-
+            
+            int idMaterial = (int) tabelaMaterial.getValueAt(linhaSelecionada, 0);
             int resposta = JOptionPane.showConfirmDialog(this, "Deseja excluir esta consulta?");
 
             if (resposta == JOptionPane.YES_OPTION) {
 
-                dao.remover(linhaSelecionada);
+                dao.remover(idMaterial);
 
                 model();
 
@@ -760,7 +765,8 @@ public class CadastroMaterial extends javax.swing.JFrame {
         if(material == null){
             JOptionPane.showMessageDialog(this, "Material não encontrado");
         }else{
-        
+        idMaterial = material.getIdMaterial();
+        idFabricante = material.getFabricante().getIdFabricante();
         txtNome.setText(material.getNome());
        
         txtPreco.setText(String.valueOf(material.getPreco()));
@@ -869,12 +875,16 @@ public void model() {
     for (Material m : lista) {
         
         model.addRow(new Object[]{
+            m.getIdMaterial(),
             m.getCodigo(),
             m.getNome(),
             df.format(m.getPreco()),
             m.getFabricante().getNome()
         });
-    }    
+    }
+    tabelaMaterial.getColumnModel().getColumn(0).setMinWidth(0);
+    tabelaMaterial.getColumnModel().getColumn(0).setMaxWidth(0);
+    tabelaMaterial.getColumnModel().getColumn(0).setPreferredWidth(0);    
 
 
 }

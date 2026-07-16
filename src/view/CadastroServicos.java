@@ -26,7 +26,8 @@ public class CadastroServicos extends javax.swing.JFrame {
      */
     public CadastroServicos() {
         initComponents();
-        txtPesquisarServico.setText("1111");
+        txtPesquisarServico.setText("2545");
+        model();
     }
     char privilegio;
     public CadastroServicos(char inicial){
@@ -51,6 +52,7 @@ public class CadastroServicos extends javax.swing.JFrame {
            }
             
     }
+     int idtds = 0;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -369,7 +371,7 @@ public class CadastroServicos extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Código", "Descrição", "Preço", ""
+                "idTDS", "Código", "Descrição", "Preço"
             }
         ));
         jScrollPane3.setViewportView(tabelaServicos);
@@ -598,7 +600,7 @@ public class CadastroServicos extends javax.swing.JFrame {
         if(tipoServico == null){
             JOptionPane.showMessageDialog(this, "Serviço não encontrado");
         }else{
-
+            idtds = tipoServico.getIdTds();
             txtDescricao.setText(tipoServico.getDescricao());
 
             txtPreco.setText(String.valueOf(tipoServico.getPrecoServico()));
@@ -663,6 +665,7 @@ public class CadastroServicos extends javax.swing.JFrame {
         }
         try{
             tipoServ.setCodigo(strCodigo);
+            tipoServ.setIdTds(idtds);
 
             dao.atualizar(tipoServ);
 
@@ -687,12 +690,12 @@ public class CadastroServicos extends javax.swing.JFrame {
         TipoDeServicoDao dao = new TipoDeServicoDao();
 
         if (linhaSelecionada >= 0) {
-
+            int idTDS = (int) tabelaServicos.getValueAt(linhaSelecionada, 0);
             int resposta = JOptionPane.showConfirmDialog(this, "Deseja excluir esta consulta?");
 
             if (resposta == JOptionPane.YES_OPTION) {
 
-                dao.remover(linhaSelecionada);
+                dao.remover(idTDS);
 
                 model();
 
@@ -786,12 +789,16 @@ public void model() {
     for (TipoDeServico tds : lista) {
         
         model.addRow(new Object[]{
+            tds.getIdTds(),
             tds.getCodigo(),
             tds.getDescricao(),
             df.format(tds.getPrecoServico()),
             
         });
-    }    
+    }
+    tabelaServicos.getColumnModel().getColumn(0).setMinWidth(0);
+    tabelaServicos.getColumnModel().getColumn(0).setMaxWidth(0);
+    tabelaServicos.getColumnModel().getColumn(0).setPreferredWidth(0);        
 
 
 }

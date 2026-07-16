@@ -14,6 +14,10 @@ public class Cargo {
     private String cargo;
     private double salario;
     
+    public Cargo(){
+        
+    }
+    
     public Cargo(int idCargo, String nomeCargo, double salario) {
         this.idCargo = idCargo;
         this.cargo = nomeCargo;

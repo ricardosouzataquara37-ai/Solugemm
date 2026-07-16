@@ -164,7 +164,7 @@ public class Login extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         FuncionarioDao dao = new FuncionarioDao();
         Funcionario func = new Funcionario();
-       // dao.
+       
         String strMatricula  = txtMatricula.getText();
         String strSenha = txtSenha.getText();
         if(strMatricula.trim().isEmpty() || strSenha.trim().isEmpty()){

@@ -18,9 +18,9 @@ public class EmpresaDao {
     
     
     static {
-        listaEmpresa.add(new Empresa(1,"23333444343438","Solugemm Gardênia","solugemm@solugemm.com","21998556556"));
-        listaEmpresa.add(new Empresa(2,"45363547453763","Solugemm Taquara","solugemm@solugemm.com","21998556556"));
-        listaEmpresa.add(new Empresa(3,"36464635335363","Solugemm Madureira","solugemm@solugemm.com","21998556556"));
+        listaEmpresa.add(new Empresa(1,"53019145000109","Solugemm Gardênia","solugemm@solugemm.com","21998556556"));
+        listaEmpresa.add(new Empresa(4,"53019145000109","Solugemm Serviços técnicos(Pechincha)","contato@solugemm.com","21998556556"));
+        listaEmpresa.add(new Empresa(5,"53019145000109","Solugemm Serviços técnicos(Piedade)","solugemm@solugemm.com","21998556556"));
     }
     
     public List<Empresa> listarTodos() {

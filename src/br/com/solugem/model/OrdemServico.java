@@ -21,30 +21,92 @@ public class OrdemServico {
     private Cliente cliente;
     private Empresa empresa;
     private Endereco endereco;
-    private List<FuncionarioServico> equipe;
-    private List<MaterialUtilizado>listaMateriais;
-    private List<ServicoConcluido>listaServicos;
+    private static List<MaterialUtilizado> listaMatUtilizado = new ArrayList<>();
+    private static List<ServicoConcluido> listaServConcluido = new ArrayList<>();
+     
     
-    public OrdemServico(){
-        this.listaMateriais = new ArrayList<>();
-        this.listaServicos = new ArrayList<>();
-        this.equipe = new ArrayList<>();
-    }
+    // MaterialUtilizado
+    
+    
+     public void salvarMaterial(MaterialUtilizado matUtil){
+         listaMatUtilizado.add(matUtil);
+     }
+     
+     
+     public void excluirMaterial(String material){
+         for(MaterialUtilizado mu : listaMatUtilizado){
+             if(mu.getMaterial().equals(material)){
+                 listaMatUtilizado.remove(mu);
+             }
+         }
+     }
+     
+     public List<MaterialUtilizado> listarMaterial(){
+         return listaMatUtilizado;
+     }
    
-    public void adicionarMaterial(MaterialUtilizado material){
-        this.listaMateriais.add(material);
-        //System.out.println("Material" + material.getMaterial().getNome() + " acicionado a lista Os");
-    }
+     public  void removerMaterial(int indice){
+        if(indice >= 0 && indice < listaMatUtilizado.size()){
+            this.listaMatUtilizado.remove(indice);
+        }
+     }
+   
+  //-----------------
+  //ServicoConcluido   
+    public void salvarServico(ServicoConcluido servCon){
+         listaServConcluido.add(servCon);
+     }
+     
+     public void excluirSErvico(String tipoServico){
+         for(ServicoConcluido sc : listaServConcluido){
+             if(sc.getTipoServico().equals(tipoServico)){
+                 listaServConcluido.remove(sc);
+             }
+         }
+     }
+     
+     public List<ServicoConcluido> listarServico(){
+         return listaServConcluido;
+     }
+     
+     public  void removerServico(int indice){
+        if(indice >= 0 && indice < listaServConcluido.size()){
+            this.listaServConcluido.remove(indice);
+        }
+     }
     
-    public void adicionarServico(ServicoConcluido servico){
-        this.listaServicos.add(servico);
-        
-    }
-    
+  // ----------------------- 
+  //funcionarioServico
+     
+    private static List<FuncionarioServico> listaFuncionarioServico = new ArrayList<>();
+     
+     public void salvarFuncServ(FuncionarioServico funcServ){
+         listaFuncionarioServico.add(funcServ);
+     }
+     public void excluirFuncServ(String matricula){
+         for(FuncionarioServico fs : listaFuncionarioServico){
+             if(fs.getFuncionario().getMatricula().equals(matricula)){
+                 listaFuncionarioServico.remove(fs);
+             }
+         }
+     }
+     
+     public List<FuncionarioServico> listarFuncServ(){
+         return listaFuncionarioServico;
+     }
+     
+     public  void remover(int indice){
+        if(indice >= 0 && indice < listaFuncionarioServico.size()){
+            this.listaFuncionarioServico.remove(indice);
+        }
+     }  
+     
+  //------------------------   
+ /**   
     public void adicionarEquipe(FuncionarioServico equipe){
         this.equipe.add(equipe);
     }
-
+  */
     public int getIdOs() {
         return idOs;
     }
@@ -108,7 +170,7 @@ public class OrdemServico {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-
+/**
     public List<FuncionarioServico> getEquipe() {
         return equipe;
     }
@@ -132,9 +194,9 @@ public class OrdemServico {
     public void setListaServicos(List<ServicoConcluido> listaServicos) {
         this.listaServicos = listaServicos;
     }
+  */  
     
-    
-    
+   /** 
     // ArrayList para testes simular banco de dados
     public double calcularTotalOs(){
         double soma = 0;
@@ -147,7 +209,7 @@ public class OrdemServico {
         return soma;
     }
     
-    
+  */  
     
     
 }

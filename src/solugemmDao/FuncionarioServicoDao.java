@@ -13,6 +13,7 @@ import java.util.List;
  * @author principal
  */
 public class FuncionarioServicoDao {
+    /**
     private static List<FuncionarioServico> listaFuncionarioServico = new ArrayList<>();
      
      public void salvar(FuncionarioServico funcServ){
@@ -35,4 +36,5 @@ public class FuncionarioServicoDao {
             this.listaFuncionarioServico.remove(indice);
         }
      }
+     */
 }

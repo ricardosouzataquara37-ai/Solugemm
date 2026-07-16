@@ -31,7 +31,7 @@ public class CadastroClientes extends javax.swing.JFrame {
     public CadastroClientes() {
         initComponents();
          model();
-         txtPesquisarCPFCliente.setText("12345678900");
+         txtPesquisarCPFCliente.setText("10340440444");
     }
     char privilegio;
     public CadastroClientes(char inicial){
@@ -55,6 +55,7 @@ public class CadastroClientes extends javax.swing.JFrame {
            }
     
     }
+   int  idCliente = 0;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -519,13 +520,13 @@ public class CadastroClientes extends javax.swing.JFrame {
 
         tabelaCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Email", "Telefone", "CPF"
+                "Id", "Nome", "Email", "Telefone", "CPF"
             }
         ));
         table.setViewportView(tabelaCliente);
@@ -673,6 +674,7 @@ public class CadastroClientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
+       
         String strNome = txtNome.getText();
         String strTelefone = txtTelefone.getText();
         String strEmail = txtEmail.getText();
@@ -750,24 +752,29 @@ public class CadastroClientes extends javax.swing.JFrame {
         endereco.setNumeroApartamento(apartamento);
         endereco.setBloco(bloco);
         
-        telefone.setNumero(strTelefone);
+       // telefone.setNumero(strTelefone);
         
+        cliente.setIdCliente(idCliente);
         cliente.setNome(strNome);
         cliente.setEmail(strEmail);
         DateTimeFormatter formatadorBR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dataNascimento = LocalDate.parse(strData,formatadorBR);
         cliente.setDataNascimento(dataNascimento);
         cliente.setCPF(strCPF);
+        cliente.setTel(strTelefone);
         cliente.setSexo(strSexo);
         cliente.setEndereco(endereco);
         cliente.setTelefone(telefone);
         cliente.setEndereco(endereco);
         
         dao.atualizar(cliente);
-        model();
+        idCliente = 0;
+       // model();
         JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso");
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this,"Erro inesperado, Cliente não cadastrado");
+              e.printStackTrace();
+              JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+           // JOptionPane.showMessageDialog(this,"Erro inesperado, Cliente não cadastrado");
         }
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
@@ -816,14 +823,15 @@ public class CadastroClientes extends javax.swing.JFrame {
         
         
         ClienteDao dao = new ClienteDao();
-        Cliente cliente = dao.cliente(strPesquisarCPFCliente);
+        Cliente cliente = dao.consultar(strPesquisarCPFCliente);
         
         if(cliente == null){
             JOptionPane.showMessageDialog(this, "Cliente não encontrado");
         }else{
-        
+        idCliente = cliente.getIdCliente();
         txtNome.setText(cliente.getNome());
-        txtTelefone.setText(cliente.getTelefone().getNumero());
+       // txtTelefone.setText(cliente.getTelefone().getNumero());
+        txtTelefone.setText(cliente.getTel());
         txtEmail.setText(cliente.getEmail());
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         txtDataNascimento.setText(cliente.getDataNascimento().format(formatador));
@@ -960,7 +968,7 @@ public class CadastroClientes extends javax.swing.JFrame {
         endereco.setNumeroApartamento(apartamento);
         endereco.setBloco(bloco);
         
-        telefone.setNumero(strTelefone);
+       // telefone.setNumero(strTelefone);
         
         cliente.setNome(strNome);
         cliente.setEmail(strEmail);
@@ -970,14 +978,17 @@ public class CadastroClientes extends javax.swing.JFrame {
         cliente.setCPF(strCPF);
         cliente.setSexo(strSexo);
         cliente.setEndereco(endereco);
-        cliente.setTelefone(telefone);
+       // cliente.setTelefone(telefone);
+       cliente.setTel(strTelefone);
         cliente.setEndereco(endereco);
         
         dao.salvar(cliente);
-        model();
+       // model();
         JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso");
         }catch(Exception e){
-           JOptionPane.showMessageDialog(this, "Erro inesperado, cadastro não realizado");
+            e.printStackTrace(); 
+             JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+          // JOptionPane.showMessageDialog(this, "Erro inesperado, cadastro não realizado");
         } 
     }//GEN-LAST:event_btnSalvarClienteActionPerformed
 
@@ -987,14 +998,14 @@ public class CadastroClientes extends javax.swing.JFrame {
            
            if (linhaSelecionada >= 0) {
         
-            
+                 int idCliente = (int) tabelaCliente.getValueAt(linhaSelecionada, 0);
                  int resposta = JOptionPane.showConfirmDialog(this, "Deseja excluir esta consulta?");
             
             if (resposta == JOptionPane.YES_OPTION) {
          
-                dao.remover(linhaSelecionada);
+                dao.remover(idCliente);
                  
-                model();
+              //  model();
                 
             JOptionPane.showMessageDialog(this, "Item excluido com sucesso!");
             }
@@ -1152,14 +1163,18 @@ public class CadastroClientes extends javax.swing.JFrame {
     model.setRowCount(0);
     
     for (Cliente c : lista) {
-        // Proteção contra valores nulos nas colunas
         model.addRow(new Object[]{
+            c.getIdCliente(),
             c.getNome(),
             c.getEmail(),
-            c.getTelefone().getNumero(),
+            c.getTel(),
             c.getCPF()
+            
         });
     }
+    tabelaCliente.getColumnModel().getColumn(0).setMinWidth(0);
+    tabelaCliente.getColumnModel().getColumn(0).setMaxWidth(0);
+    tabelaCliente.getColumnModel().getColumn(0).setPreferredWidth(0);
 }   
 
 }

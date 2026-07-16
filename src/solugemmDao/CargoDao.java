@@ -5,8 +5,17 @@
 package solugemmDao;
 
 import br.com.solugem.model.Cargo;
+import br.com.solugem.model.Conexao;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
+
 
 /**
  *
@@ -15,15 +24,34 @@ import java.util.List;
 public class CargoDao {
     
     private static List<Cargo> listaCargo = new ArrayList<>();
-    
-    
-    static {
-        listaCargo.add(new Cargo(1,"Proprietátio",00));
-        listaCargo.add(new Cargo(2,"Técnico 2",3200));
-        listaCargo.add(new Cargo(3,"Técnico 1",2400));
-    }
-    
+    // -----------------------------
+
     public List<Cargo> listarTodos() {
+        String sql = "SELECT idCargo, nomeCargo, salario FROM cargo";
+        List<Cargo> lista = new ArrayList<>();
+
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Cargo c = new Cargo(
+                    rs.getInt("idCargo"),
+                    rs.getString("nomeCargo"),
+                    rs.getDouble("salario") // Ajuste o tipo conforme seu modelo
+                );
+                lista.add(c);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar cargos: " + e.getMessage());
+        }
+        return lista;
+    }
+ 
+    
+    //-------------------------------
+    
+    public List<Cargo> listarTodos2() {
         return listaCargo;
     }
     
