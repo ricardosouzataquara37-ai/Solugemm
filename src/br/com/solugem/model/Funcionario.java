@@ -4,6 +4,8 @@
  */
 package br.com.solugem.model;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +17,15 @@ public class Funcionario {
     private String nome;
     private String matricula;
     private String identificacao;
-    private String dataNascimento;
+    private LocalDate dataNascimento;
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
     private String sexo;
     private int idade;
     private String email;
@@ -24,6 +34,25 @@ public class Funcionario {
     private Cargo cargo;
     private Endereco endereco;
     private List<Telefone> telefones;
+    private Telefone telefome;
+
+    public Telefone getTelefome() {
+        return telefome;
+    }
+
+    public void setTelefome(Telefone telefome) {
+        this.telefome = telefome;
+    }
+    
+    
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
     
     
     
@@ -60,13 +89,7 @@ public class Funcionario {
         this.identificacao = identificacao;
     }
 
-    public String getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
+   
 
     public String getSexo() {
         return sexo;
@@ -127,6 +150,8 @@ public class Funcionario {
     public void adicionarTelefone(Telefone t){
         this.telefones.add(t);
     }
+    
+   
     
     
     

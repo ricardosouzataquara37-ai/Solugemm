@@ -13,7 +13,7 @@ public class Endereco {
     private int idEndereco;
     private String cep;
     private String rua;
-    private int numero;
+    private String numero;
     private String bairro;
     private String cidade;
     private String estado;
@@ -22,7 +22,7 @@ public class Endereco {
     private String bloco;
     
     
-
+    
     public int getIdEndereco() {
         return idEndereco;
     }
@@ -47,11 +47,11 @@ public class Endereco {
         this.rua = rua;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 

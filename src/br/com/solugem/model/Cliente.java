@@ -4,6 +4,7 @@
  */
 package br.com.solugem.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -13,25 +14,34 @@ import java.util.List;
 public class Cliente {
     private int idCliente;
     private String nome;
-    private String identificacao;
-    private String dataNascimento;
+    private String CPF;
+    private LocalDate dataNascimento;
     private int idade;
     private String sexo;
     private String email;
     private Endereco endereco;
     private List<Telefone>telefones;
+    private Telefone telefone;
     private AcumuloServico saldoFidelidade;
+
+    public Telefone getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(Telefone telefone) {
+        this.telefone = telefone;
+    }
 
     
     
-    
+ /**   
     // verificar identificação
     public boolean validarDocumento(){
-        String docLimpo = this.identificacao.replaceAll("[^0-9]","");
+        String docLimpo = this.CPF.replaceAll("[^0-9]","");
         int tamanho = docLimpo.length();
         return (tamanho == 11 || tamanho == 14);
     }
-  
+ */ 
     
     public AcumuloServico getSaldoFidelidade() {
         return saldoFidelidade;
@@ -58,21 +68,25 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public String getIdentificacao() {
-        return identificacao;
+    public String getCPF() {
+        return CPF;
     }
 
-    public void setIdentificacao(String identificacao) {
-        this.identificacao = identificacao;
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
     }
 
-    public String getDataNascimento() {
+   
+
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+   
 
     public int getIdade() {
         return idade;

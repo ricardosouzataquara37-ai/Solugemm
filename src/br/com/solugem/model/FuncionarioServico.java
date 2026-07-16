@@ -9,11 +9,22 @@ package br.com.solugem.model;
  * @author principal
  */
 public class FuncionarioServico {
+    private int idOs;
     private int idFuncionarioServico;
     private String horaInicioServico;
     private String horaFimServico;
     private String observacaoFuncionario;
     private Funcionario funcionario;
+
+    public int getIdOs() {
+        return idOs;
+    }
+
+    public void setIdOs(int idOs) {
+        this.idOs = idOs;
+    }
+    
+    
 
     public Funcionario getFuncionario() {
         return funcionario;

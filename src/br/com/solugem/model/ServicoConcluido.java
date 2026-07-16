@@ -9,11 +9,22 @@ package br.com.solugem.model;
  * @author principal
  */
 public class ServicoConcluido {
+    private int idOs;
     private int idServicoConcluido;
     private int qtdTipoServico;
     private double preco;
     private double totalMaoObra;
     private TipoDeServico tipoServico;
+
+    public int getIdOs() {
+        return idOs;
+    }
+
+    public void setIdOs(int idOs) {
+        this.idOs = idOs;
+    }
+    
+    
 
     public TipoDeServico getTipoServico() {
         return tipoServico;

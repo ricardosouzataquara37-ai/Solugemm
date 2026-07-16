@@ -9,11 +9,22 @@ package br.com.solugem.model;
  * @author principal
  */
 public class MaterialUtilizado {
+    private int idOs;
     private int idMaterialUtilizado;
     private double precoMaterial;
     private int qtdMaterial;
     private double totalMaterialUtilizado;
     private Material material;
+
+    public int getIdOs() {
+        return idOs;
+    }
+
+    public void setIdOs(int idOs) {
+        this.idOs = idOs;
+    }
+    
+    
 
     public Material getMaterial() {
         return material;

@@ -4,6 +4,7 @@
  */
 package br.com.solugem.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,23 +14,23 @@ import java.util.List;
  */
 public class OrdemServico {
     private int idOs;
-    private String data;
+    private LocalDate data;
     private double totalMaoObramaterial;
     private double desconto;
     private double totalMaoObraComDesc;
     private Cliente cliente;
     private Empresa empresa;
     private Endereco endereco;
-    private ArrayList<FuncionarioServico> equipe;
-    private ArrayList<MaterialUtilizado>listaMateriais;
-    private ArrayList<ServicoConcluido>listaServicos;
+    private List<FuncionarioServico> equipe;
+    private List<MaterialUtilizado>listaMateriais;
+    private List<ServicoConcluido>listaServicos;
     
     public OrdemServico(){
         this.listaMateriais = new ArrayList<>();
         this.listaServicos = new ArrayList<>();
         this.equipe = new ArrayList<>();
     }
-    
+   
     public void adicionarMaterial(MaterialUtilizado material){
         this.listaMateriais.add(material);
         //System.out.println("Material" + material.getMaterial().getNome() + " acicionado a lista Os");
@@ -52,11 +53,11 @@ public class OrdemServico {
         this.idOs = idOs;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
@@ -108,27 +109,27 @@ public class OrdemServico {
         this.endereco = endereco;
     }
 
-    public ArrayList<FuncionarioServico> getEquipe() {
+    public List<FuncionarioServico> getEquipe() {
         return equipe;
     }
 
-    public void setEquipe(ArrayList<FuncionarioServico> equipe) {
+    public void setEquipe(List<FuncionarioServico> equipe) {
         this.equipe = equipe;
     }
 
-    public ArrayList<MaterialUtilizado> getListaMateriais() {
+    public List<MaterialUtilizado> getListaMateriais() {
         return listaMateriais;
     }
 
-    public void setListaMateriais(ArrayList<MaterialUtilizado> listaMateriais) {
+    public void setListaMateriais(List<MaterialUtilizado> listaMateriais) {
         this.listaMateriais = listaMateriais;
     }
 
-    public ArrayList<ServicoConcluido> getListaServicos() {
+    public List<ServicoConcluido> getListaServicos() {
         return listaServicos;
     }
 
-    public void setListaServicos(ArrayList<ServicoConcluido> listaServicos) {
+    public void setListaServicos(List<ServicoConcluido> listaServicos) {
         this.listaServicos = listaServicos;
     }
     

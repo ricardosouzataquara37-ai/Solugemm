@@ -16,9 +16,38 @@ public class Empresa {
     private String razaoSocial;
     private String email;
     private Endereco endereco;
-    private Funcionario funcionario;
+    private List<Funcionario> funcionarios;
     private List<Telefone> telefones;
+    private String telefone;
+    
+    public Empresa(){
+        
+    }
+    
+    
+    public Empresa(int id,String cnpj, String razaoSocial, String email, String telefome ){
+         this.cnpj = cnpj;
+         this.razaoSocial = razaoSocial;
+         this.email = email;
+         this.idEmpresa = id;
+         this.telefone = telefone;
+    }
+    
+    @Override
+    public String toString() {
+        return this.razaoSocial; 
+    }
 
+    public List<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void setFuncionarios(List<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
+    }
+    
+    
+    
     public int getIdEmpresa() {
         return idEmpresa;
     }
